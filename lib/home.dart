@@ -53,10 +53,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     itemCount: state.todos.length,
                     itemBuilder: (context, int i) {
                       return Card(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .primary
-                            .withOpacity(1),
+                        // color: Theme.of(context)
+                        //     .colorScheme
+                        //     .primary
+                        //     .withOpacity(1),
                         elevation: 1,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),
