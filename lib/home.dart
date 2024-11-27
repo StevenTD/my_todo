@@ -4,31 +4,29 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:my_todo/data/todo.dart';
 import 'package:my_todo/todo_bloc/todo_bloc.dart';
 
-class MyHomePage extends StatefulWidget {
+class MyHomePage extends StatelessWidget {
   MyHomePage({super.key});
 
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
   TextEditingController txtTitle = TextEditingController();
 
   TextEditingController txtSubtitle = TextEditingController();
 
   addTodo(
+    BuildContext context,
     Todo todo,
   ) {
     context.read<TodoBloc>().add(AddTodo(todo));
   }
 
   removeTodo(
+    BuildContext context,
     Todo todo,
   ) {
     context.read<TodoBloc>().add(RemoveTodo(todo));
   }
 
   alterTodo(
+    BuildContext context,
     int index,
   ) {
     context.read<TodoBloc>().add(AlterTodo(index));
@@ -67,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               children: [
                                 SlidableAction(
                                   onPressed: (_) {
-                                    removeTodo(state.todos[i]);
+                                    removeTodo(context, state.todos[i]);
                                   },
                                   backgroundColor: const Color(0xFFFE4A49),
                                   foregroundColor: Colors.white,
@@ -84,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     activeColor:
                                         Theme.of(context).colorScheme.secondary,
                                     onChanged: (value) {
-                                      alterTodo(i);
+                                      alterTodo(context, i);
                                     }))),
                       );
                     });
@@ -101,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: () {
           showDialog(
               context: context,
-              builder: (context) {
+              builder: (contextDialog) {
                 return AlertDialog.adaptive(
                   scrollable: true,
                   title: const Text('Add a Task'),
@@ -125,6 +123,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ElevatedButton(
                         onPressed: () {
                           addTodo(
+                            context,
                             Todo(
                               title: txtTitle.text,
                               subtitle: txtSubtitle.text,
@@ -132,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           );
                           txtTitle.clear();
                           txtSubtitle.clear();
-                          Navigator.pop(context);
+                          Navigator.pop(contextDialog);
                         },
                         child: const Text('Save'))
                   ],
